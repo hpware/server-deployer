@@ -1,2 +1,2 @@
-bun install
-pm2 bun start
+bun install --prod
+pm2 start app/index.ts --interpreter $(which bun) --name "server-deployer"
