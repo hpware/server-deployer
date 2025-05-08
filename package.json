@@ -9,7 +9,8 @@
   "scripts": {
     "start": "bun run app/index.ts",
     "server": "bash server_sys.sh",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "keygen": "bun run app/keygen.ts"
   },
   "devDependencies": {
     "@types/bun": "latest"
