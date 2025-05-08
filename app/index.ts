@@ -6,7 +6,7 @@ const F404 = await file("./app/assets/404.html").text();
 
 Bun.serve({
   port: Number(process.env.SERVER_PORT),
-  development: true,
+  development: false,
   routes: {
     "/application/:app/deploy": async (req) => {
         const app = req.params.app;
