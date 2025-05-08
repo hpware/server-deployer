@@ -1,13 +1,11 @@
 #!/bin/bash
 
-# --- Configuration ---
 REPO_DIR="/path/to/your/project/on/server"
 DOCKER_IMAGE_NAME="your-app-name"
 DOCKER_CONTAINER_NAME="your-app-container"
 # DOCKER_COMPOSE_FILE_PATH="${REPO_DIR}/docker-compose.yml"
 
-# --- Logging ---
-LOG_FILE="/var/log/deployment.log" # Ensure this path is writable
+LOG_FILE="/var/log/deployment.log"
 exec > >(tee -a ${LOG_FILE})
 exec 2> >(tee -a ${LOG_FILE} >&2)
 

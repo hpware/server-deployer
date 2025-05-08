@@ -1,12 +1,23 @@
 {
-  "name": "/deploy",
-  "module": "index.ts",
+  "name": "server-deployer",
+  "version": "1.0.0",
+  "description": "A simple server deployer",
+  "main": "app/index.ts",
+  "module": "app/index.ts",
   "type": "module",
-  "private": true,
+  "private": false,
+  "scripts": {
+    "start": "bun run app/index.ts",
+    "server": "bash server_sys.sh",
+    "prettier": "prettier --write ."
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "prettier": "^3.5.3"
   }
 }
