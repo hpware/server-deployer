@@ -5,9 +5,5 @@ const key = randomUUIDv7();
 
 const saveKey = await sql`INSERT INTO tokens (token) VALUES (${key});`;
 
-console.log(key);
 
-console.log("Key Generated!");
-
-
-console.log(import.meta.dir);
+console.log("Key Generated! Please keep your key somewhere safe. Your new key: " + key + "\n");
