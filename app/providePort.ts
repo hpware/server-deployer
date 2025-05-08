@@ -1,0 +1,1 @@
+console.log("Server running at :" +  process.env.SERVER_PORT);
