@@ -1,13 +1,9 @@
 import { randomUUIDv7 } from "bun";
 import sql from "./components/postgres.ts";
 
-await sql`CREATE TABLE IF NOT EXISTS keys (
-    id SERIAL PRIMARY KEY,
-    key VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);`;
-
 const key = randomUUIDv7();
+
+const saveKey = await sql`INSERT INTO tokens (token) VALUES (${key});`;
 
 console.log(key);
 

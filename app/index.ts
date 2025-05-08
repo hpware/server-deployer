@@ -1,5 +1,6 @@
 import { file } from "bun";
-import runDeployCommand from "./runDeployCommand";
+import runDeployCommand from "./components/runDeployCommand";
+import checkToken from "./components/checkToken";
 
 const F404 = await file("./app/assets/404.html").text();
 
@@ -9,6 +10,15 @@ Bun.serve({
   routes: {
     "/application/:app/deploy": async (req) => {
         const app = req.params.app;
+        const url = new URL(req.url);
+        const token = url.searchParams.get("token") || undefined;
+        if (token === undefined) {
+            return new Response("Missing token", { status: 400 });
+        }
+        const checkk = await checkToken(token);
+        if (!checkk) {
+            return new Response("Invalid token", { status: 401 });
+        }
         const stream = await runDeployCommand(app);
         return new Response(stream, {
             status: 200,
