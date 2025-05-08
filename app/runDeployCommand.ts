@@ -3,18 +3,17 @@ import { spawn } from "child_process";
 const runDeployCommand = async (app: string) => {
     return new ReadableStream({
         start(controller) {
-            const erdfi = spawn("bash", [`${process.cwd()}/scripts/${app}.sh`]);
+            const erdfi = spawn("bash", [`${process.cwd()}/scripts/deploy/${app}.sh`]);
 
             erdfi.stdout.on("data", (data) => {
-                controller.enqueue(`data: ${data}\n\n`);
+                controller.enqueue(`${data}\n`);
             });
 
             erdfi.stderr.on("data", (data) => {
-                controller.enqueue(`data: ${data}\n\n`);
+                controller.enqueue(`${data}\n`);
             });
 
-            erdfi.on("close", (code) => {
-                controller.enqueue(`data: Process exited with code ${code}\n\n`);
+            erdfi.on("close", () => {
                 controller.close();
             });
 
