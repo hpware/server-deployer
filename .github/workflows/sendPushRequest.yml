@@ -2,7 +2,7 @@ name: Server Deployment Request
 on:
   push:
     branches:
-      - main
+      - master
   workflow_dispatch:
 
 jobs:
@@ -19,13 +19,7 @@ jobs:
           echo "Sending deployment request to server..."
           RESPONSE=$(curl -X POST \
             -H "Content-Type: application/json" \
-            -d '{"branch": "${{ github.ref_name }}", "commit": "${{ github.sha }}"}' \
             --fail \
             --silent \
             --show-error \
             ${{ secrets.DEPLOY_URL }})
-          echo "Server response: $RESPONSE"
-          
-          # Extract deployment ID from response (assuming JSON response with deploymentId field)
-          DEPLOYMENT_ID=$(echo $RESPONSE | jq -r '.deploymentId')
-          echo "deployment_id=$DEPLOYMENT_ID" >> $GITHUB_OUTPUT
