@@ -30,8 +30,16 @@ Bun.serve({
           })
     },
     "/docker/containers": async (req) => {
+      const url = new URL(req.url);
+      const token = url.searchParams.get("token") || undefined;
+      if (token === undefined) {
+          return new Response("Missing token", { status: 400 });
+      }
+      const checkk = await checkToken(token);
+      if (!checkk) {
+          return new Response("Invalid token", { status: 401 });
+      }
       const stream = await runDockerPs();
-
       return new Response(stream, {
         status: 200,
         headers: { "Content-Type": "text/event-stream",
