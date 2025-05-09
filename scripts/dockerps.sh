@@ -1,0 +1,3 @@
+echo Loading Containers...
+sleep 0.5
+docker ps
