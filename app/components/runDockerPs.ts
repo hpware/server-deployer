@@ -1,6 +1,6 @@
 import { spawn } from "child_process";
 
-const runDeployCommand = async (app: string) => {
+const runDeployCommand = async () => {
     return new ReadableStream({
         start(controller) {
             const erdfi = spawn("bash", [`${process.cwd()}/scripts/dockerps.sh`]);

@@ -4,7 +4,6 @@ import runDockerPs from "./components/runDockerPs";
 import checkToken from "./components/checkToken";
 import sql from "./components/postgres.ts";
 
-
 const F404 = await file("./app/assets/404.html").text();
 
 Bun.serve({
