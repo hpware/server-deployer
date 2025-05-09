@@ -24,7 +24,7 @@ try {
     echo "Starting deployment process...\n";
     
     echo "Fetching latest code from the repository...\n";
-    executeCommand("git pull origin main", $deployDir);
+    executeCommand("git pull", $deployDir);
     
     echo "Installing dependencies...\n";
     executeCommand("bun install --prod", $deployDir);
