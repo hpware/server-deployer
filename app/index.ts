@@ -1,7 +1,9 @@
-import { file } from "bun";
+import { file, randomUUIDv7 } from "bun";
 import runDeployCommand from "./components/runDeployCommand";
 import runDockerPs from "./components/runDockerPs";
 import checkToken from "./components/checkToken";
+import sql from "./components/postgres.ts";
+
 
 const F404 = await file("./app/assets/404.html").text();
 
@@ -26,6 +28,8 @@ Bun.serve({
             headers: { "Content-Type": "text/event-stream",
                 "Cache-Control": "no-cache",
                 "Connection": "keep-alive",
+                "charset": "utf-8",
+                "Access-Control-Allow-Origin": "*",
              },
           })
     },
@@ -45,7 +49,32 @@ Bun.serve({
         headers: { "Content-Type": "text/event-stream",
           "Cache-Control": "no-cache",
           "Connection": "keep-alive",
+          "charset": "utf-8",
+          "Access-Control-Allow-Origin": "*",
        },
+      });
+    },
+    "/generate-key": async (req) => {
+      const url = new URL(req.url);
+      const token = url.searchParams.get("token") || undefined;
+      if (token === undefined) {
+          return new Response("Missing token", { status: 400 });
+      }
+      const checkk = await checkToken(token);
+      if (!checkk) {
+          return new Response("Invalid token", { status: 401 });
+      }
+      const key = randomUUIDv7();
+
+      const saveKey = await sql`INSERT INTO tokens (token) VALUES (${key});`;
+      
+            return new Response("Key Generated! Please keep your key somewhere safe. Your new key: "  + "\n", {
+        status: 200,
+        headers: { "Content-Type": "text/plain",
+          "Cache-Control": "no-cache",
+          "Connection": "keep-alive",
+          "charset": "utf-8",
+        }
       });
     },
     "/status": async () => {
