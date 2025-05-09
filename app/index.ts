@@ -68,7 +68,7 @@ Bun.serve({
 
       const saveKey = await sql`INSERT INTO tokens (token) VALUES (${key});`;
       
-            return new Response("Key Generated! Please keep your key somewhere safe. Your new key: " + saveKey + "\n", {
+            return new Response("Key Generated! Please keep your key somewhere safe. Your new key: " + key + "\n", {
         status: 200,
         headers: { "Content-Type": "text/plain",
           "Cache-Control": "no-cache",
