@@ -1,0 +1,34 @@
+name: Server Deployment Request
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    env:
+      DEPLOY_URL: ${{ secrets.DEPLOY_URL }}
+    
+    steps:
+      - name: Send deployment request
+        id: deploy-request
+        run: |
+          echo "Sending deployment request to server..."
+          RESPONSE=$(curl -X POST \
+            -H "Content-Type: application/json" \
+            --http1.1 \
+            --fail \
+            --silent \
+            --show-error \
+            "${{ secrets.DEPLOY_URL }}" || echo "Failed to send request")
+          
+          if [ $? -eq 0 ]; then
+            echo "Deployment request sent successfully"
+            echo "Response: $RESPONSE"
+          else
+            echo "Error sending deployment request"
+            exit 1
+          fi

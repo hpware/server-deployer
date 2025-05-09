@@ -1,0 +1,13 @@
+{
+  "name": "server-deployer",
+  "version": "1.0.0",
+  "description": "A simple server deployer",
+  "main": "app/index.ts",
+  "module": "app/index.ts",
+  "type": "module",
+  "private": false,
+  "scripts": {
+    "start": "whatever you script is", // <- Add this!! And mount to the correct preview command, like in Nuxt it is: bun run .output/server/index.mjs
+  }
+  /* Your dependencies here */
+}

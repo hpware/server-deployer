@@ -1,0 +1,7 @@
+node_modules
+.nuxt
+.output
+.next
+dist
+.git
+.env
