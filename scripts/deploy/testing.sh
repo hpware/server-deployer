@@ -1,4 +1,9 @@
 echo testing
 sleep 3
 echo testing
+sleep 1
+echo testing
+echo testing
+echo testing    
+echo testing
 echo testing
