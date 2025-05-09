@@ -5,7 +5,7 @@ import checkToken from "./components/checkToken";
 const F404 = await file("./app/assets/404.html").text();
 
 Bun.serve({
-  port: Number(process.env.SERVER_PORT),
+  port: Number(process.env.SERVER_PORT || 55330),
   development: false,
   routes: {
     "/application/:app/deploy": async (req) => {
@@ -28,10 +28,61 @@ Bun.serve({
              },
           })
     },
+    "/status": async () => {
+      return Response.json({
+        status: "ok",
+        message: "Server is running",
+        version: "1.0.0",
+        uptime: process.uptime(),
+        timestamp: new Date().toISOString(),
+        server: {
+          name: "Bun Server",
+          version: process.versions.bun,
+        },
+        node: {
+          version: process.versions.node,
+          platform: process.platform,
+          arch: process.arch,
+        },
+        memory: {
+          rss: process.memoryUsage().rss,
+          heapTotal: process.memoryUsage().heapTotal,
+          heapUsed: process.memoryUsage().heapUsed,
+          external: process.memoryUsage().external,
+        },
+        cpu: {
+          user: process.cpuUsage().user,
+          system: process.cpuUsage().system,
+        },
+        env: {
+          NODE_ENV: process.env.NODE_ENV,
+          SERVER_PORT: process.env.SERVER_PORT,
+          SERVER_HOST: process.env.SERVER_HOST,
+        },
+        memoryUsage: {
+          rss: process.memoryUsage().rss,
+          heapTotal: process.memoryUsage().heapTotal,
+          heapUsed: process.memoryUsage().heapUsed,
+          external: process.memoryUsage().external,
+        },
+        cpuUsage: {
+          user: process.cpuUsage().user,
+          system: process.cpuUsage().system,
+        },
+        process: {
+          pid: process.pid,
+          title: process.title,
+          version: process.version,
+          platform: process.platform,
+          arch: process.arch,
+          uptime: process.uptime(),
+        },
+      });
+    },
     "/**": new Response(F404, {
       status: 404,
       headers: { "Content-Type": "text/html" },
     }),
 }
 });
-console.log("Server running at :" +  process.env.SERVER_PORT);
+console.log("Server running at :" +  (process.env.SERVER_PORT || 55330) );
