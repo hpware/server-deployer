@@ -1,5 +1,6 @@
 import { file } from "bun";
 import runDeployCommand from "./components/runDeployCommand";
+import runDockerPs from "./components/runDockerPs";
 import checkToken from "./components/checkToken";
 
 const F404 = await file("./app/assets/404.html").text();
@@ -27,6 +28,15 @@ Bun.serve({
                 "Connection": "keep-alive",
              },
           })
+    },
+    "/docker/containers": async (req) => {
+      return new Response(runDockerPs, {
+        status: 200,
+        headers: { "Content-Type": "text/event-stream",
+          "Cache-Control": "no-cache",
+          "Connection": "keep-alive",
+       },
+      });
     },
     "/status": async () => {
       return Response.json({
@@ -57,7 +67,6 @@ Bun.serve({
         env: {
           NODE_ENV: process.env.NODE_ENV,
           SERVER_PORT: process.env.SERVER_PORT,
-          SERVER_HOST: process.env.SERVER_HOST,
         },
         memoryUsage: {
           rss: process.memoryUsage().rss,
