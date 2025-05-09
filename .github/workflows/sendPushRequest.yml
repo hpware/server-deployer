@@ -17,4 +17,18 @@ jobs:
         id: deploy-request
         run: |
           echo "Sending deployment request to server..."
-          RESPONSE=$(curl -X POST -H "Content-Type: application/json" --fail --silent --show-error "${{ secrets.DEPLOY_URL }}")
+          RESPONSE=$(curl -X POST \
+            -H "Content-Type: application/json" \
+            --http1.1 \
+            --fail \
+            --silent \
+            --show-error \
+            "${{ secrets.DEPLOY_URL }}" || echo "Failed to send request")
+          
+          if [ $? -eq 0 ]; then
+            echo "Deployment request sent successfully"
+            echo "Response: $RESPONSE"
+          else
+            echo "Error sending deployment request"
+            exit 1
+          fi
