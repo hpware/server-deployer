@@ -30,7 +30,9 @@ Bun.serve({
           })
     },
     "/docker/containers": async (req) => {
-      return new Response(runDockerPs, {
+      const stream = await runDockerPs();
+
+      return new Response(stream, {
         status: 200,
         headers: { "Content-Type": "text/event-stream",
           "Cache-Control": "no-cache",
